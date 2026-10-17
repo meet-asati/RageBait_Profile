@@ -84,8 +84,11 @@ input[type="text"]:focus { outline: none; border-color: var(--primary); box-shad
   width: 100%; max-height: 260px; object-fit: contain; border-radius: 8px; display: block; background: #000;
 }
 
-.sample-box { border: 1px dashed var(--border); border-radius: 10px; padding: 14px; min-height: 90px; overflow: hidden; display: flex; align-items: center; }
-.sample-text { margin: 0; font-size: 20px; transition: font-size .35s ease; word-break: break-word; line-height: 1.2; }
+/* Page-wide font size is driven from JS on <html>; the controls stay fixed-size so they're always clickable. */
+html { font-size: 16px; transition: font-size .35s ease; }
+.font-card, .font-card .btn { font-size: 16px; }
+.font-card .btn-square { font-size: 24px; }
+.font-card h3 { font-size: 19px; }
 
 .avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
 .avatar-placeholder { display: grid; place-items: center; background: #dfe2ea; font-size: 3rem; color: #9aa0ac; }
@@ -105,9 +108,18 @@ input[type="text"]:focus { outline: none; border-color: var(--primary); box-shad
 .toggle input:checked + .slider::after { transform: translateX(20px); }
 .toggle input:focus-visible + .slider { outline: 3px solid var(--primary); outline-offset: 2px; }
 
-.ad { position: relative; border: 2px solid var(--gold); background: #fffbea; border-radius: 12px; padding: 12px; text-align: center; }
+.ad {
+  position: fixed; z-index: 90; width: min(300px, calc(100vw - 32px)); font-size: 15px;
+  border: 2px solid var(--gold); background: #fffbea; border-radius: 12px; padding: 12px; text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
 .ad img { width: 100%; max-height: 160px; object-fit: contain; border-radius: 6px; }
 .ad p { margin: 8px 0 0; font-weight: 700; }
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 95; font-size: 15px;
+  background: #1c1f26; color: #fff; padding: 12px 20px; border-radius: 10px; font-weight: 600;
+  max-width: calc(100vw - 32px); text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,.3);
+}
 .ad-tag { position: absolute; top: 8px; left: 8px; background: var(--gold); font-size: .7rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
 .ad-close { position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; border-radius: 50%; border: none; background: #222; color: #fff; cursor: pointer; font-size: 1rem; }
 

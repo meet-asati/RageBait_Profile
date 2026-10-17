@@ -38,11 +38,9 @@
       </section>
 
       <!-- Font size -->
-      <section class="card">
+      <section class="card font-card">
         <h3>Text Size</h3>
-        <div class="sample-box">
-          <p id="sampleText" class="sample-text">This is your profile description.</p>
-        </div>
+        <p class="muted">Adjust the text size across your entire profile.</p>
         <div class="row">
           <button type="button" id="fontMinusBtn" class="btn btn-square" aria-label="Decrease font size">−</button>
           <button type="button" id="fontPlusBtn" class="btn btn-square" aria-label="Increase font size">+</button>
@@ -72,13 +70,7 @@
           <span class="slider" aria-hidden="true"></span>
           Enable Notifications
         </label>
-        <div id="adBanner" class="ad">
-          <span class="ad-tag">AD</span>
-          <button type="button" id="adCloseBtn" class="ad-close" aria-label="Close advertisement">✕</button>
-          <img id="adImage" alt="Advertisement">
-          <p id="adText">Congratulations! You've been selected for an exclusive offer!</p>
-        </div>
-        <div id="adMessage" class="message" role="status" aria-live="polite"></div>
+        <p class="muted">We'll only send you important updates. Promise.</p>
       </section>
 
       <div class="save-row">
@@ -87,6 +79,15 @@
       </div>
     </form>
   </main>
+
+  <!-- Pop-up ad: appears at random spots on the page -->
+  <aside id="adBanner" class="ad" aria-label="Advertisement" hidden>
+    <span class="ad-tag">AD</span>
+    <button type="button" id="adCloseBtn" class="ad-close" aria-label="Close advertisement">✕</button>
+    <img id="adImage" alt="Advertisement">
+    <p id="adText">Congratulations! You've been selected for an exclusive offer!</p>
+  </aside>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
   <!-- Premium modal -->
   <div id="premiumModal" class="modal-overlay" hidden>

@@ -5,7 +5,7 @@ const memeAssets = {
   tungTungSahur: "tung_tung.mp4",
   gigachad: "gigachad.mp4",
   gareeb: "yeh_jo_gareeb hove.mp4",
-  catLaugh: "cat_laugh.mp4", // not supplied yet; falls back to an animated cat if missing
+  catLaugh: "cat laugh.mp4",
   rickroll: "rick_roll.mp4",
   ads: ["ad1.jpeg", "ad2.jpeg", "ad3.jpeg"]
 };
@@ -13,7 +13,7 @@ const memeAssets = {
 const ragebaitState = {
   usernameAttempts: 0,
   fontDecreaseAttempts: 0,
-  fontSize: 20,
+  fontSize: 16,
   auraAttempts: 0,
   adCloseAttempts: 0,
   adTimer: null,
@@ -72,9 +72,15 @@ function handleUsernameUpdate() {
   ragebaitState.usernameAttempts++;
   const msg = $("usernameMessage");
   const n = ragebaitState.usernameAttempts;
+  const typed = $("usernameInput").value.trim().toLowerCase().replace(/\s+/g, " ").replace("&", "and");
   msg.classList.toggle("loud", n === 2);
+  msg.classList.remove("rizz");
 
-  if (n === 1) {
+  if (n > 3 && typed === "meet and soham") {
+    msg.classList.add("rizz");
+    showMessage(msg, "Rizz found", "anim-reveal");
+    burstStars(["😎", "🔥", "✨"]);
+  } else if (n === 1) {
     showMessage(msg, "What!! i can't see that plz try again", "anim-shake");
   } else if (n === 2) {
     showMessage(msg, "say it louder", "anim-shake-hard");
@@ -91,11 +97,12 @@ function handleUsernameUpdate() {
 
 // ---------- Font size ----------
 const FONT_MIN = 2, FONT_MAX = 48;
-const plusSteps = [16, 12, 9];
+const plusSteps = [13, 10, 7];
 const decreaseLies = ["Font size decreased successfully!", "Your eyesight has been upgraded.", "Trust the process."];
 
+// Scales the whole page via the root font size (everything uses rem/em).
 function applyFontSize() {
-  $("sampleText").style.fontSize = ragebaitState.fontSize + "px";
+  document.documentElement.style.fontSize = ragebaitState.fontSize + "px";
 }
 
 function handleFontIncrease() {
@@ -206,33 +213,60 @@ function burstStars(chars) {
 }
 
 // ---------- Ad + Premium ----------
-function rotateAd() {
+const adTexts = [
+  "Congratulations! You've been selected for an exclusive offer!",
+  "HOT singles with UNLIMITED AURA near you!",
+  "Doctors HATE this one profile trick!",
+  "You are the 1,000,000th visitor! Claim your prize!"
+];
+let toastTimer = null;
+
+function showToast(text) {
+  const toast = $("toast");
+  toast.textContent = text;
+  toast.hidden = false;
+  playAnim(toast, "anim-fade");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.hidden = true; }, 2200);
+}
+
+// Pops the ad up at a random spot inside the viewport.
+function spawnAd() {
+  const ad = $("adBanner");
   const i = ragebaitState.adCloseAttempts % memeAssets.ads.length;
   $("adImage").src = assetUrl(memeAssets.ads[i]);
+  $("adText").textContent = randomFrom(adTexts);
+  ad.hidden = false;
+  const maxLeft = Math.max(8, window.innerWidth - ad.offsetWidth - 8);
+  // The image may not have loaded yet, so reserve its full height.
+  const maxTop = Math.max(8, window.innerHeight - Math.max(ad.offsetHeight, 280) - 8);
+  ad.style.left = 8 + Math.random() * (maxLeft - 8) + "px";
+  ad.style.top = 8 + Math.random() * (maxTop - 8) + "px";
+  playAnim(ad, "anim-zoom");
+}
+
+function scheduleAd(delay) {
+  clearTimeout(ragebaitState.adTimer);
+  ragebaitState.adTimer = setTimeout(() => {
+    ragebaitState.adTimer = null;
+    if (!ragebaitState.premiumOpen && !ragebaitState.premiumCompleted) spawnAd();
+  }, delay);
 }
 
 function handleAdClose() {
   if (ragebaitState.adTimer || ragebaitState.premiumOpen) return;
   ragebaitState.adCloseAttempts++;
-  const ad = $("adBanner");
-  const msg = $("adMessage");
-  ad.hidden = true;
+  $("adBanner").hidden = true;
 
   if (ragebaitState.adCloseAttempts === 1) {
-    showMessage(msg, "Ad closed successfully!");
+    showToast("Ad closed successfully!");
   } else if (ragebaitState.adCloseAttempts === 2) {
-    showMessage(msg, "Almost there! Just one more step.");
+    showToast("Almost there! Just one more step.");
   } else {
-    showMessage(msg, "");
     showPremiumModal();
     return;
   }
-  ragebaitState.adTimer = setTimeout(() => {
-    ragebaitState.adTimer = null;
-    rotateAd();
-    ad.hidden = false;
-    playAnim(ad, "anim-zoom");
-  }, 1000);
+  scheduleAd(1000);
 }
 
 function showPremiumModal() {
@@ -250,6 +284,7 @@ function closePremiumModal() {
   ragebaitState.premiumOpen = false;
   $("premiumModal").hidden = true;
   $("premiumNoResult").querySelector("video")?.pause();
+  $("catLaughSlot").querySelector("video")?.pause();
   const back = ragebaitState.lastFocus;
   (back && document.contains(back) && !back.closest("[hidden]") ? back : $("saveBtn")).focus();
 }
@@ -281,14 +316,14 @@ function handlePremiumYes() {
   $("premiumYesResult").focus();
   setTimeout(() => {
     closePremiumModal();
-    showMessage($("adMessage"), "Ads removed. Premium status: denied.");
+    showToast("Ads removed. Premium status: denied.");
   }, 2200);
 }
 
 function renderCatLaugh(slot) {
   slot.replaceChildren();
   const v = document.createElement("video");
-  v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
+  v.loop = true; v.playsInline = true;
   v.setAttribute("aria-label", "Laughing cat meme");
   v.onerror = () => {
     const cat = document.createElement("div");
@@ -300,7 +335,8 @@ function renderCatLaugh(slot) {
   };
   v.src = assetUrl(memeAssets.catLaugh);
   slot.appendChild(v);
-  v.play().catch(() => {});
+  // Started from the "Yes" click, so sound is usually allowed; retry muted if not.
+  v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
 }
 
 // Focus trap; Escape intentionally does nothing.
@@ -337,8 +373,9 @@ function handleSaveProfile(event) {
 
 // ---------- Wire up ----------
 function init() {
-  rotateAd();
   applyFontSize();
+  // First ad sneaks in after the page has had a moment to look normal.
+  scheduleAd(3000 + Math.random() * 4000);
   $("updateUsernameBtn").addEventListener("click", handleUsernameUpdate);
   $("usernameInput").addEventListener("keydown", (e) => {
     if (e.key === "Enter") { e.preventDefault(); handleUsernameUpdate(); }
