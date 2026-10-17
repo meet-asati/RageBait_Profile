@@ -29,8 +29,9 @@ You type a name and click **Update Username**. It never updates.
 | 2 | "say it louder" (big, red, harder shake) |
 | 3 | "Still can't see that I guess you have to say our names", plus the Say My Name video and **MEET AND SOHAM** |
 | 4+ | A random taunt, e.g. "USERNAME NOT FOUND. SKILL ISSUE." |
+| 4+ with "Meet and Soham" typed | **Rizz found** in glowing gold, with a burst of 😎🔥✨ |
 
-Changing the text in the box doesn't reset the count. Pressing Enter counts as an attempt too.
+The "Meet and Soham" check ignores capitalization and extra spaces, and accepts "&" for "and". Changing the text in the box doesn't reset the count. Pressing Enter counts as an attempt too.
 
 ### Text size (affects the whole page)
 - **+** makes the entire page's text *smaller*: 16 → 13 → 10 → 7, then 2px at a time down to 2px. It says "Font size increased successfully!"

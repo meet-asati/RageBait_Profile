@@ -72,6 +72,10 @@ input[type="text"]:focus { outline: none; border-color: var(--primary); box-shad
 .row.center { justify-content: center; }
 
 .message { min-height: 1.4em; margin: 0; font-weight: 600; word-break: break-word; }
+.message.rizz {
+  font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 900; text-align: center; color: var(--gold);
+  text-shadow: 0 0 14px rgba(245,179,1,.7), 2px 2px 0 #000;
+}
 .message.loud { font-size: 1.5rem; color: var(--danger); text-transform: uppercase; }
 
 .names {
