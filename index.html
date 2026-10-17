@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile Settings</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo"><span class="logo-dot"></span> Profile Settings</div>
+    <nav class="topnav"><span>Account</span><span>Privacy</span><span>Billing</span></nav>
+  </header>
+
+  <main class="container">
+    <form id="profileForm" class="grid" novalidate>
+      <!-- Profile card -->
+      <section class="card profile-card">
+        <div class="avatar-wrap">
+          <img id="avatarPreview" class="avatar" alt="Your profile picture" hidden>
+          <div id="avatarPlaceholder" class="avatar avatar-placeholder" aria-hidden="true">?</div>
+        </div>
+        <h2 id="displayName">Anonymous User</h2>
+        <p class="muted">Member since today · Free plan</p>
+      </section>
+
+      <!-- Username -->
+      <section class="card">
+        <h3>Username</h3>
+        <label for="usernameInput">Display name</label>
+        <input id="usernameInput" type="text" placeholder="Enter a username" autocomplete="off" maxlength="40">
+        <button type="button" id="updateUsernameBtn" class="btn">Update Username</button>
+        <div id="usernameMessage" class="message" role="status" aria-live="polite"></div>
+        <div id="sayMyName" class="meme-box" hidden>
+          <video data-asset="sayMyName" autoplay muted loop playsinline aria-label="Say my name meme"></video>
+          <p class="names">MEET AND SOHAM</p>
+        </div>
+      </section>
+
+      <!-- Font size -->
+      <section class="card">
+        <h3>Text Size</h3>
+        <div class="sample-box">
+          <p id="sampleText" class="sample-text">This is your profile description.</p>
+        </div>
+        <div class="row">
+          <button type="button" id="fontMinusBtn" class="btn btn-square" aria-label="Decrease font size">−</button>
+          <button type="button" id="fontPlusBtn" class="btn btn-square" aria-label="Increase font size">+</button>
+        </div>
+        <div id="fontMessage" class="message" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- Aura -->
+      <section class="card aura-card">
+        <h3>Profile Picture</h3>
+        <label for="imageInput" class="btn btn-outline file-label">Upload Profile Picture</label>
+        <input id="imageInput" type="file" accept="image/*" class="visually-hidden">
+        <button type="button" id="analyzeAuraBtn" class="btn" disabled>Analyze Aura</button>
+        <div id="uploadMessage" class="message" role="status" aria-live="polite"></div>
+        <div id="auraResult" class="aura-result" hidden aria-live="polite">
+          <video id="auraVideo" autoplay muted loop playsinline></video>
+          <div id="auraText" class="aura-text"></div>
+        </div>
+        <button type="button" id="auraDoneBtn" class="btn btn-glow" hidden>Click when you think you have enough aura</button>
+      </section>
+
+      <!-- Notifications + ad -->
+      <section class="card">
+        <h3>Notification Preferences</h3>
+        <label class="toggle">
+          <input type="checkbox" id="notifToggle" checked>
+          <span class="slider" aria-hidden="true"></span>
+          Enable Notifications
+        </label>
+        <div id="adBanner" class="ad">
+          <span class="ad-tag">AD</span>
+          <button type="button" id="adCloseBtn" class="ad-close" aria-label="Close advertisement">✕</button>
+          <img id="adImage" alt="Advertisement">
+          <p id="adText">Congratulations! You've been selected for an exclusive offer!</p>
+        </div>
+        <div id="adMessage" class="message" role="status" aria-live="polite"></div>
+      </section>
+
+      <div class="save-row">
+        <button type="submit" id="saveBtn" class="btn btn-primary">Save Profile</button>
+        <p id="saveMessage" class="message" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </main>
+
+  <!-- Premium modal -->
+  <div id="premiumModal" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="premiumTitle">
+      <div id="premiumOffer">
+        <div class="badge">👑 PREMIUM</div>
+        <h2 id="premiumTitle">CONGRATULATIONS! YOU HAVE UNLOCKED PREMIUM!</h2>
+        <p class="price">$676767676767676</p>
+        <p class="muted">Unlock unlimited profile customization, infinite aura, and absolutely nothing useful.</p>
+        <div class="row center">
+          <button type="button" id="premiumYesBtn" class="btn btn-primary">Yes</button>
+          <button type="button" id="premiumNoBtn" class="btn btn-outline">No</button>
+        </div>
+      </div>
+      <div id="premiumNoResult" class="modal-result" hidden>
+        <video data-asset="gareeb" muted loop playsinline aria-label="Yeh jo gareeb hove h meme"></video>
+        <p class="big-text">yeh jo gareeb hove h</p>
+        <p class="price small">$676767676767676</p>
+        <button type="button" id="premiumBackBtn" class="btn">Back</button>
+      </div>
+      <div id="premiumYesResult" class="modal-result" hidden>
+        <div id="catLaughSlot" class="cat-slot"></div>
+        <p class="big-text">You ain't that rich budd</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="fx" class="fx" aria-hidden="true"></div>
+  <script src="script.js"></script>
+</body>
+</html>

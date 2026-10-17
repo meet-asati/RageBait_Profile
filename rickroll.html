@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile Saved</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="rick-body">
+  <h1>You have been rick rolled</h1>
+  <div class="video-wrap">
+    <video id="rickVideo" src="rick_roll.mp4" controls autoplay playsinline aria-label="Rick Astley - Never Gonna Give You Up"></video>
+    <div id="playOverlay" class="play-overlay" hidden>
+      <button type="button" id="playBtn" class="btn btn-primary">▶ Play the Rickroll</button>
+    </div>
+  </div>
+  <p id="rickSub" class="rick-sub">Your profile has been saved successfully. Your dignity has not.</p>
+  <div class="row center">
+    <button type="button" id="replayBtn" class="btn btn-outline" style="color:#fff" hidden>↻ Replay</button>
+    <a href="index.html" class="btn">Return to Profile</a>
+  </div>
+
+  <script>
+    const video = document.getElementById("rickVideo");
+    const overlay = document.getElementById("playOverlay");
+    const replay = document.getElementById("replayBtn");
+
+    function start() {
+      overlay.hidden = true;
+      video.play().catch(() => { overlay.hidden = false; });
+    }
+    video.play().catch(() => { overlay.hidden = false; });
+    document.getElementById("playBtn").addEventListener("click", () => { video.muted = false; start(); });
+    video.addEventListener("ended", () => { replay.hidden = false; });
+    replay.addEventListener("click", () => { video.currentTime = 0; replay.hidden = true; start(); });
+    video.addEventListener("error", () => {
+      document.getElementById("rickSub").textContent =
+        "The video failed to load, but trust us: you were never gonna be given up.";
+    });
+  </script>
+</body>
+</html>
