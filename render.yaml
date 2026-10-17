@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: apex-five
+    runtime: static
+    buildCommand: npm run build
+    staticPublishPath: ./build
